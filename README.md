@@ -66,14 +66,29 @@ API ini digunakan untuk melakukan login dan logout ke admin page. Informasi
 yang diinputkan adalah username dan password. Gunakan mekanisme
 tokenisasi, session, atau mekanisme lain untuk mendukung fitur ini.
 
+Answer:
+
+Untuk melakukan login ke dalam admin page yang diperlukan adalah username & password yang telah terdaftar didalam database, API signin ini akan mengembalikan response berupa user id, user name, user email, dan token. Token ini akan digunakan untuk melakukan validasi saat user ingin
+melakukan fetch data pada API yang tidak bisa di akses secara public (protected routes).
+
 Method: `POST`</br>
 Uri: `/v1/auth/signin`</br>
 Body:
 ```json
 {
-    "email": "robinnusantara127@gmail.com",
+    "username": "robin",
     "password": "robin123"
 }
 ```
+
+<img width="1232" alt="Screenshot 2023-10-20 at 00 32 39" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/b6e827fb-a5f6-4201-9909-dfb7f407aa33">
+
+
+Method: `DELETE`</br>
+Uri: `/v1/auth/signout`</br>
+
+API ini akan digunakan untuk melakukan logout dari dashboard, saat berhasil melakukan logout API tidak akan mengembalikan response dikarenakan user token yang telah tersimpan didalam database sudah terhapus oleh karena itu menurut saya saat logout yang di return adalah no content.
+
+<img width="1232" alt="Screenshot 2023-10-20 at 00 44 26" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/3cadf679-93a6-4a50-88c7-af78d94047bc">
 
 
