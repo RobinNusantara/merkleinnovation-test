@@ -1,0 +1,33 @@
+{
+  "name": "merkelinnovation-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon src/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "http-errors": "^2.0.0",
+    "inversify": "^6.0.1",
+    "mysql2": "^3.6.2",
+    "passport": "^0.6.0",
+    "pino": "^8.16.0",
+    "pino-http": "^8.5.0",
+    "pino-pretty": "^10.2.3",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.33.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
+  }
+}
