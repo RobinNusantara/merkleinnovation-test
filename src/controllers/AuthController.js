@@ -1,21 +1,21 @@
 const { HttpController } = require("../common/http/HttpController");
 const { Controller } = require("../common/utils/AppDependency");
-const { AuthService } = require("../services/AuthService");
+const { UserService } = require("../services/UserService");
 
 class AuthController extends HttpController {
     /**
      * @private
-     * @type {AuthService}
+     * @type {UserService}
      */
-    authService;
+    userService;
 
     /**
      * @param {import("express").Application} express
-     * @param {AuthService}                   authService 
+     * @param {UserService}                   userService 
      */
-    constructor(express, authService) {
+    constructor(express, userService) {
         super(express)
-        this.authService = authService;
+        this.userService = userService;
     }
 
     setRoutes() {
@@ -25,6 +25,6 @@ class AuthController extends HttpController {
     }
 }
 
-Controller(AuthController)([AuthService]);
+Controller(AuthController)([UserService]);
 
 module.exports = { AuthController }
