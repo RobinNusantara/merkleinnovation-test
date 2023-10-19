@@ -100,11 +100,19 @@ ini.
 
 Answer:
 
-Pada API ini saya melakukan create, read, delete user dan juga melihat melihat semua data yang ada di guest form
+Pada API ini saya melakukan create, read, delete user dan juga melihat melihat semua data yang ada di guest form.
 
 Method: `POST`</br>
 Uri: `/v1/admin/users`</br>
-Headers: `token:{{token}}`
+Headers: `token:{{token}}`</br>
+Body:
+```json
+{
+    "email": "johndoe@gmail.com",
+    "username": "John",
+    "password": "XG34zYaQ6GDEl3I"
+}
+```
 
 API ini akan melakukan insert data user kedalam database, untuk melakukan insert data pada API ini diperlukan login telebih dahulu. Saya juga menerapkan validasi email dan validasi username saat melakukan insert data user untuk menhindari duplikasi data pada user. Kemudian untuk password pada
 umumnya sepengelaman saya bisa dilakukan auto generate pada frontend lalu backend akan melakukan enkripsi password sebelum disimpan kedalam database.
@@ -118,6 +126,7 @@ umumnya sepengelaman saya bisa dilakukan auto generate pada frontend lalu backen
 
 Method: `GET`<br/>
 Uri: `/v1/admin/users`<br/>
+Query: `?page={{page}}&limit={{limit}}`</br>
 Headers: `token:{{token}}`
 
 API ini akan melakukan fetch data untuk semua user(admin) yang telah terdaftar didalam database, untuk melakukan fetch data pada API ini diperlukan login terlebih dahulu. Saya juga menghilangkan password user didalam response API ini untuk alasan keamanan data user walaupun
@@ -129,7 +138,15 @@ Method: `DELETE`<br/>
 Uri: `/v1/admin/users`<br/>
 Headers: `token:{{token}}`
 
-API ini akan melakukan remove data pada user berdasarkan user id,jika data berhasl di remove akan mengembalikan no response
+API ini akan melakukan remove data pada user berdasarkan user id,jika data berhasl di remove akan mengembalikan no response.
 
 <img width="1232" alt="Screenshot 2023-10-20 at 02 18 32" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/29d8eb9c-0cb6-4657-ae9e-07acfbfc2553">
 
+Method: `GET`<br/>
+Uri: `/v1/admin/guest-forms`<br/>
+Query: `?page={{page}}&limit={{limit}}`</br>
+Headers: `token:{{token}}`
+
+API ini akan menampilkan semua guest form yang telah di submit oleh tamu, karena login sebagai admin maka saya menampilkan semua data pada guest form dan tidak ada sama sekali attributes yang dihilangkan.
+
+<img width="1232" alt="Screenshot 2023-10-20 at 02 33 41" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/f8e176cc-4750-4ccf-ae4c-769a84a16116">
