@@ -1,9 +1,10 @@
 /** Dependencies */
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const { Container } = require("inversify");
+const { Op } = require("sequelize");
 
 const { UserRepository } = require("../../repositories/UserRepository");
-const { Op } = require("sequelize");
+const UserTokenModel = require("../../models/UserTokenModel");
 
 class PassportJwtStrategy extends Strategy {
     constructor() {
@@ -32,10 +33,23 @@ class PassportJwtStrategy extends Strategy {
 
                 userRepository
                     .findOne({
+                        subQuery: false,
+                        include: [
+                            {
+                                model: UserTokenModel,
+                            }
+                        ],
                         where: {
-                            id: {
-                                [Op.eq]: payload.id,
-                            },
+                            [Op.and]: [
+                                {
+                                    id: {
+                                        [Op.eq]: payload.id,
+                                    },
+                                    ["$UserTokenModels.token$"]: {
+                                        [Op.eq]: req.headers["token"],
+                                    },
+                                }
+                            ],
                         },
                     })
                     .then((user) => {

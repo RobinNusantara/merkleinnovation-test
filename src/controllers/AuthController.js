@@ -1,6 +1,7 @@
 const { HttpController } = require("../common/http/HttpController");
 const { Controller } = require("../common/utils/AppDependency");
 const { UserService } = require("../services/UserService");
+const { authentication } = require("../middlewares/AuthenticationMiddleware");
 
 class AuthController extends HttpController {
     /**
@@ -25,6 +26,16 @@ class AuthController extends HttpController {
                 password: req.body["password"],
             });
         });
+
+        this.httpDelete(
+            "auth/signout", 
+            authentication(), 
+            async (req, res, next) => {
+            return await this.userService.signOut({
+                    userId: req.user["id"],
+                    token: req.headers["token"],
+                });
+            }); 
     }
 }
 

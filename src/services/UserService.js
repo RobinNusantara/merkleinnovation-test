@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 
 const { Injectable } = require("../common/utils/AppDependency");
 const { UserRepository } = require("../repositories/UserRepository");
+const { UserTokenRepository } = require("../repositories/UserTokenRepository");
 
 class UserService {
     /**
@@ -13,12 +14,19 @@ class UserService {
      * @property {UserRepository}
      */
     userRepository;
+    /**
+     * @private
+     * @property {UserTokenRepository}
+     */
+    userTokenRepository;
     
     /**
-     * @param {UserRepository} userRepository 
+     * @param {UserRepository}      userRepository 
+     * @param {UserTokenRepository} userTokenRepository
      */
-    constructor(userRepository) {
+    constructor(userRepository, userTokenRepository) {
         this.userRepository = userRepository;
+        this.userTokenRepository = userTokenRepository;
     }
 
     /**
@@ -57,7 +65,33 @@ class UserService {
         const payload = this.mapUser(user);
         const token = sign(payload, process.env.SERVER_TOKEN);
 
+        await this.userTokenRepository.create({
+            id: randomUUID(),
+            userId: user.getDataValue("id"),
+            token,
+        })
+
         return Object.assign(payload, { token });
+    }
+
+    /**
+     * @param {import("../dtos/SignOut/SignOutDto").SignOutDto} body
+     */
+    async signOut(body) {
+        return await this.userTokenRepository.delete({
+            where: {
+                [Op.and]: [
+                    {
+                        userId: {
+                            [Op.eq]: body.userId,
+                        },
+                        token: {
+                            [Op.eq]: body.token,
+                        },
+                    }
+                ],
+            },
+        });
     }
     
 
@@ -105,6 +139,6 @@ class UserService {
     }
 }
 
-Injectable(UserService)([UserRepository]);
+Injectable(UserService)([UserRepository, UserTokenRepository]);
 
 module.exports = { UserService };

@@ -22,7 +22,7 @@ class GuestFormController extends HttpController {
         this.httpPost("guest-forms", async (req, res, next) => {
             return await this.guestFormService.insertGuestForm({
                 name: req.body["name"],
-                phoneNumber: req.body["phone_number"],
+                phoneNumber: req.body["phoneNumber"],
                 address: req.body["address"],
                 notes: req.body["notes"],
             });
