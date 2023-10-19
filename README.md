@@ -1,5 +1,30 @@
 # merkleinnovation-test
 
+**Buatlah sebuah fungsi yang dapat mencetak tampilan berikut:**
+```
+1 2 3 4 5
+2 4 6 8 10
+3 6 9 12 15
+4 8 12 16 20
+5 10 15 20 25
+```
+
+Answer:
+
+```javascript
+function printNumbers(rows, cols) {
+  for (let i = 1; i <= rows; i++) {
+    let row = "";
+    for (let j = 1; j <= cols; j++) {
+      row += (i * j) + " ";
+    }
+    console.log(row);
+  }
+}
+
+printNumbers(5, 5);
+```
+
 **Guest Form**<br/>
 API ini digunakan agar tamu dapat menambahkan data dirinya ke daftar
 tamu. Data diri yang diisikan adalah nama, alamat, nomor telepon, dan
