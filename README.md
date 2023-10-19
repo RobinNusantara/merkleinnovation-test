@@ -25,6 +25,9 @@ function printNumbers(rows, cols) {
 printNumbers(5, 5);
 ```
 
+<img width="607" alt="Screenshot 2023-10-20 at 02 53 30" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/44ed35e1-afdd-4a16-898d-8cefc91330cb">
+
+
 **Guest Form**<br/>
 API ini digunakan agar tamu dapat menambahkan data dirinya ke daftar
 tamu. Data diri yang diisikan adalah nama, alamat, nomor telepon, dan
