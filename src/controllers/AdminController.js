@@ -19,6 +19,14 @@ class AdminController extends HttpController {
     }
 
     setRoutes() {
+        this.httpPost("admin/users", async (req, res, next) => {
+            return await this.userService.insertUser({
+                email: req.body["email"],
+                username: req.body["username"],
+                password: req.body["password"],
+            });
+        });
+        
         this.httpGet("admin/users", async (req, res, next) => {
             const { page, limit, offset } = this.pagination(req.query.page, req.query.limit);
 

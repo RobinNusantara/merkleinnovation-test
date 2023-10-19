@@ -19,6 +19,7 @@ const { Database } = require("./infrastructure/mysql/Database");
         .setContainer(container)
         .setMiddlewares()
         .setRoutes()
+        .setErrors()
         .listen(port);
 
     Database.authenticate()
