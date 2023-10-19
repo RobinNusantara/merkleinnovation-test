@@ -1,5 +1,6 @@
 const { HttpController } = require("../common/http/HttpController");
 const { Controller } = require("../common/utils/AppDependency");
+const { authentication } = require("../middlewares/AuthenticationMiddleware");
 const { UserService } = require("../services/UserService");
 
 class AdminController extends HttpController {
@@ -19,7 +20,10 @@ class AdminController extends HttpController {
     }
 
     setRoutes() {
-        this.httpPost("admin/users", async (req, res, next) => {
+        this.httpPost(
+            "admin/users",
+            authentication(),
+            async (req, res, next) => {
             return await this.userService.insertUser({
                 email: req.body["email"],
                 username: req.body["username"],
@@ -27,7 +31,10 @@ class AdminController extends HttpController {
             });
         });
         
-        this.httpGet("admin/users", async (req, res, next) => {
+        this.httpGet(
+            "admin/users", 
+            authentication(), 
+            async (req, res, next) => {
             const { page, limit, offset } = this.pagination(req.query.page, req.query.limit);
 
             const data = await this.userService.getUsersAndCount({

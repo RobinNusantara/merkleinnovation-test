@@ -66,10 +66,15 @@ class UserService {
      * @param {import("../dtos/Admin/QueryGetAdminUsersDto").QueryGetAdminUsersDto} query
      */
     async getUsersAndCount(query) {
-        return await this.userRepository.findAndCountAll({
+        const data = await this.userRepository.findAndCountAll({
             limit: query.limit,
             offset: query.offset,
         });
+
+        return {
+            count: data?.count || 0,
+            rows: !data?.rows ? [] : data.rows.map((user) => this.mapUser(user)),
+        };
     }
 
 
