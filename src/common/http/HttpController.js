@@ -58,7 +58,7 @@ class HttpController {
      * @readonly
      * @type {string}
      */
-    hostname = process.env.HOSTNAME || "localhost";
+    hostname = process.env.SERVER_HOSTNAME || "localhost";
 
     /**
      * @param {Application} app
