@@ -86,6 +86,7 @@ Body:
 
 Method: `DELETE`</br>
 Uri: `/v1/auth/signout`</br>
+Headers: `token:{{token}}`
 
 API ini akan digunakan untuk melakukan logout dari dashboard, saat berhasil melakukan logout API tidak akan mengembalikan response dikarenakan user token yang telah tersimpan didalam database sudah terhapus oleh karena itu menurut saya saat logout yang di return adalah no content.
 
@@ -96,3 +97,39 @@ API ini akan digunakan untuk melakukan logout dari dashboard, saat berhasil mela
 API ini digunakan oleh admin page agar dapat mengelola semua data yang
 tersimpan di database. Tidak ada data yang dihilangkan pada response API
 ini.
+
+Answer:
+
+Pada API ini saya melakukan create, read, delete user dan juga melihat melihat semua data yang ada di guest form
+
+Method: `POST`</br>
+Uri: `/v1/admin/users`</br>
+Headers: `token:{{token}}`
+
+API ini akan melakukan insert data user kedalam database, untuk melakukan insert data pada API ini diperlukan login telebih dahulu. Saya juga menerapkan validasi email dan validasi username saat melakukan insert data user untuk menhindari duplikasi data pada user. Kemudian untuk password pada
+umumnya sepengelaman saya bisa dilakukan auto generate pada frontend lalu backend akan melakukan enkripsi password sebelum disimpan kedalam database.
+
+<img width="1232" alt="Screenshot 2023-10-20 at 01 55 23" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/bf22cb49-60d3-47f3-9a40-63bda00cc798">
+
+<img width="1232" alt="Screenshot 2023-10-20 at 02 12 33" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/030c1de1-59de-4899-a033-1b516dc1a055">
+
+<img width="1232" alt="Screenshot 2023-10-20 at 02 11 34" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/bcbd52c9-7f16-46a6-9c99-1d5958ac70d1">
+
+
+Method: `GET`<br/>
+Uri: `/v1/admin/users`<br/>
+Headers: `token:{{token}}`
+
+API ini akan melakukan fetch data untuk semua user(admin) yang telah terdaftar didalam database, untuk melakukan fetch data pada API ini diperlukan login terlebih dahulu. Saya juga menghilangkan password user didalam response API ini untuk alasan keamanan data user walaupun
+sebenarnya password user yang telah tersimpan sudah saya encrypt menggunakan bcrypt.
+
+<img width="1232" alt="Screenshot 2023-10-20 at 01 58 01" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/ab30ad3f-b5d1-47db-a30a-422156dec017">
+
+Method: `DELETE`<br/>
+Uri: `/v1/admin/users`<br/>
+Headers: `token:{{token}}`
+
+API ini akan melakukan remove data pada user berdasarkan user id,jika data berhasl di remove akan mengembalikan no response
+
+<img width="1232" alt="Screenshot 2023-10-20 at 02 18 32" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/29d8eb9c-0cb6-4657-ae9e-07acfbfc2553">
+
