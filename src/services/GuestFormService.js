@@ -14,8 +14,21 @@ class GuestFormService {
     constructor(guestFormRepository) {
         this.guestFormRepository = guestFormRepository;
     }
+
+    /**
+     * @public
+     * @param {import("../dtos/GuestForm/InsertGuestFormDto").InsertGuestFormDto} body
+     */
+    async insertGuestForm(body) {
+        return await this.guestFormRepository.create({
+            name: body.name,
+            address: body.address,
+            phoneNumber: body.phoneNumber,
+            notes: body.notes,
+        });
+    }
 }
 
 Injectable(GuestFormService)([GuestFormRepository]);
 
-module.exports = { GuestFormService }
+module.exports = { GuestFormService };

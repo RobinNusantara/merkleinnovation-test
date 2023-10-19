@@ -1,4 +1,5 @@
 const { HttpController } = require("../common/http/HttpController");
+const { Controller } = require("../common/utils/AppDependency");
 const { GuestFormService } = require("../services/GuestFormService");
 
 class GuestFormController extends HttpController {
@@ -17,7 +18,18 @@ class GuestFormController extends HttpController {
         this.guestFormService = guestFormService;
     }
 
-    setRoutes() {}
+    setRoutes() {
+        this.httpPost("guest-forms", async (req, res, next) => {
+            return await this.guestFormService.insertGuestForm({
+                name: req.body["name"],
+                phoneNumber: req.body["phone_number"],
+                address: req.body["address"],
+                notes: req.body["notes"],
+            });
+        })
+    }
 }
+
+Controller(GuestFormController)([GuestFormService]);
 
 module.exports = { GuestFormController }
