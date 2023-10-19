@@ -80,6 +80,17 @@ class SequelizeRepository {
     }
 
     /**
+     * Search for multiple instances.
+     *
+     * @public
+     * @param   {import("sequelize").FindAndCountOptions<T>} options
+     * @returns {Promise<{rows: Array<M>, count: number }>}
+     */
+    async findAndCountAll(options) {
+        return await this.model.findAndCountAll(options);
+    }
+
+    /**
      * Delete multiple instances, or set their deletedAt timestamp to the current time if paranoid is enabled.
      *
      * @public

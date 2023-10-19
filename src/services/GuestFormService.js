@@ -27,6 +27,18 @@ class GuestFormService {
             notes: body.notes,
         });
     }
+
+    /**
+     * @public
+     * @param {import("../dtos/GuestForm/QueryGetGuestFormsDto").QueryGetGuestFormDto} query
+     */
+    async getGuestForms(query) {
+        return await this.guestFormRepository.findAndCountAll({
+            limit: query.limit,
+            offset: query.offset,
+            attributes: ["id", "name", "notes"],
+        });
+    }
 }
 
 Injectable(GuestFormService)([GuestFormRepository]);

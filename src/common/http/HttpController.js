@@ -30,7 +30,6 @@ const { Paginate } = require("../pagination/Paginate");
  * @property {number}             page
  * @property {number}             limit
  * @property {number}             totalItems
- * @property {Record<string,any>} summary
  * @property {Record<string,any>} data
  */
 
@@ -323,31 +322,8 @@ class HttpController {
 
         const paginate = new Paginate(pagination, data);
 
-        if (args.summary) {
-            return {
-                pagination: {
-                    pointer: {
-                        before: prevPage.toString(),
-                        after: paginate.pagination.page.toString(),
-                    },
-                    ["page"]: paginate.pagination.page,
-                    ["limit"]: paginate.pagination.limit,
-                    ["total_items"]: paginate.pagination.totalItems,
-                    ["total_pages"]: paginate.pagination.totalPages,
-                    ["next_link_page"]: paginate.pagination.nextLinkPage,
-                    ["prev_link_page"]: paginate.pagination.prevLinkPage,
-                },
-                summary: args.summary,
-                rows: paginate.rows,
-            };
-        }
-
         return {
             pagination: {
-                pointer: {
-                    before: prevPage.toString(),
-                    after: paginate.pagination.page.toString(),
-                },
                 ["page"]: paginate.pagination.page,
                 ["limit"]: paginate.pagination.limit,
                 ["total_items"]: paginate.pagination.totalItems,
