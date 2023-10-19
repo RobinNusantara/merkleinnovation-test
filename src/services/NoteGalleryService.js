@@ -1,21 +1,21 @@
 const { Injectable } = require("../common/utils/AppDependency");
-const { NoteGalleryRepository } = require("../repositories/NoteGalleryRepository");
+const { GuestFormRepository } = require("../repositories/GuestFormRepository");
 
 class NoteGalleryService {
     /**
      * @private
-     * @property {NoteGalleryRepository}
+     * @property {GuestFormRepository}
      */
-    noteGalleryRepository;
+    guestFormRepository;
     
     /**
-     * @param {NoteGalleryRepository} noteGalleryRepository 
+     * @param {GuestFormRepository} guestFormRepository 
      */
-    constructor(noteGalleryRepository) {
-        this.noteGalleryRepository = noteGalleryRepository;
+    constructor(guestFormRepository) {
+        this.guestFormRepository = guestFormRepository;
     }
 }
 
-Injectable(NoteGalleryService)([NoteGalleryRepository]);
+Injectable(NoteGalleryService)([GuestFormRepository]);
 
 module.exports = { NoteGalleryService };

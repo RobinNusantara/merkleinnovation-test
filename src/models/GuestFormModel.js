@@ -2,38 +2,44 @@ const { Model, DataTypes } = require("sequelize");
 const { Database } = require("../infrastructure/mysql/Database");
 
 /**
- * @typedef  {object} IUserModel
- * @property {string} id
- * @property {string} email
- * @property {string} username
- * @property {string} password
+ * @typedef  {object} IGuestFormModel
+ * @property {number} id
+ * @property {string} name
+ * @property {string} address
+ * @property {string} phoneNumber
+ * @property {string} notes
  * @property {Date}   createdAt
  * @property {Date}   updatedAt
  * @property {Date}   deletedAt
  */
 
-/** @extends {Model<IUserModel>} */
-class UserModel extends Model {}
+/** @extends {Model<IGuestFormModel>} */
+class GuestFormModel extends Model {}
 
-UserModel.init(
+GuestFormModel.init(
     {
         id: {
-            type: DataTypes.STRING({ length: 45 }),
+            type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement: true,
             allowNull: false,
         },
-        email: {
-            type: DataTypes.STRING({ length: 255 }),
-            unique: true,
-            allowNull: false,
-        },
-        username: {
+        name: {
             type: DataTypes.STRING({ length: 255 }),
             allowNull: false,
         },
-        password: {
+        address: {
             type: DataTypes.STRING({ length: 255 }),
             allowNull: false,
+        },
+        phoneNumber: {
+            field: "phone_number",
+            type: DataTypes.STRING({ length: 255 }),
+            allowNull: false,
+        },
+        notes: {
+            type: DataTypes.TEXT,
+            allowNull: true,
         },
         createdAt: {
             field: "created_at",
@@ -53,9 +59,9 @@ UserModel.init(
     },
     {
         sequelize: Database,
-        tableName: "users",
-        modelName: "userModel",
+        tableName: "guest_forms",
+        modelName: "GuestFormModel",
     },
 );
 
-module.exports = UserModel;
+module.exports = GuestFormModel;
