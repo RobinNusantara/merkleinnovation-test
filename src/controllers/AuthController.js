@@ -19,8 +19,11 @@ class AuthController extends HttpController {
     }
 
     setRoutes() {
-        this.httpGet("auth/signin", async (req, res, next) => {
-            return 1;
+        this.httpPost("auth/signin", async (req, res, next) => {
+            return await this.userService.signIn({
+                email: req.body["email"],
+                password: req.body["password"],
+            });
         });
     }
 }
