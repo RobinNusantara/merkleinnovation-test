@@ -20,10 +20,7 @@ class NoteGalleryController extends HttpController {
     }
 
     setRoutes() {
-        this.httpGet(
-            "note-galleries", 
-            authentication(), 
-            async (req, res, next) => {
+        this.httpGet("note-galleries", async (req, res, next) => {
             const { page, limit, offset } = this.pagination(req.query.page, req.query.limit);
 
             const data = await this.guestFormService.getGuestFormsAndCount({

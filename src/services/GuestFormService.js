@@ -33,11 +33,18 @@ class GuestFormService {
      * @param {import("../dtos/GuestForm/QueryGetGuestFormsDto").QueryGetGuestFormDto} query
      */
     async getGuestFormsAndCount(query) {
-        return await this.guestFormRepository.findAndCountAll({
+        const options = {
             limit: query.limit,
             offset: query.offset,
-            attributes: ["id", "name", "notes"],
-        });
+        };
+
+        if (!query?.token) {
+            Object.assign(options, {
+                attributes: ["id", "name", "notes"]
+            })
+        }
+
+        return await this.guestFormRepository.findAndCountAll(options);
     }
 }
 

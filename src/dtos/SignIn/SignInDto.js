@@ -1,6 +1,6 @@
 class SignInDto {
     /** @type {string} */
-    email;
+    username;
     /** @type {string} */
     password;
 }
