@@ -1,7 +1,9 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
+const { Conflict, NotFound, Unauthorized } = require("http-errors");
+const { sign } = require("jsonwebtoken");
 const { randomUUID } = require("node:crypto");
 const { Op } = require("sequelize");
-const { Conflict, NotFound, Unauthorized } = require("http-errors");
+
 const { Injectable } = require("../common/utils/AppDependency");
 const { UserRepository } = require("../repositories/UserRepository");
 
@@ -51,8 +53,11 @@ class UserService {
         const isPasswordValid = await bcrypt.compare(body.password, user.password);
 
         if (!isPasswordValid) throw new Unauthorized("Wrong password!");
+        
+        const payload = this.mapUser(user);
+        const token = sign(payload, process.env.SERVER_TOKEN);
 
-        return this.mapUser(user);
+        return Object.assign(payload, { token });
     }
     
 
@@ -84,9 +89,9 @@ class UserService {
 
     /**
      * @private
-     * @param {import("../models/UserModel")} user 
+     * @param {Pick<import("../models/UserModel").IUserModel, "id" | "email" | "username">} user 
      */
-    async mapUser(user) {
+    mapUser(user) {
         return {
             id: user.getDataValue("id"),
             email: user.getDataValue("email"),

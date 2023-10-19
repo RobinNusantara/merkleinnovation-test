@@ -10,6 +10,7 @@ const { Express } = require("./common/symbols/Express");
 /** Middleware */
 const { cors } = require("./middlewares/CorsMiddleware");
 const { HttpError } = require("./middlewares/HttpErrorMiddleware");
+const { PassportJwtStrategy } = require("./middlewares/passport/PassportJwtStrategy");
 
 /** Application */
 const { Controllers } = require("./controllers");
@@ -52,6 +53,7 @@ class App {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.json());
         this.app.use(passport.initialize());
+        passport.use(new PassportJwtStrategy());
 
         return this;
     }
