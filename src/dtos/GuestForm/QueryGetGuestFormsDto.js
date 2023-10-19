@@ -3,6 +3,8 @@ class QueryGetGuestFormDto {
     limit;
     /** @type {number} */
     offset;
+    /** @type {string} */
+    token;
 }
 
 module.exports = { QueryGetGuestFormDto };

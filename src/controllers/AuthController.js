@@ -22,7 +22,7 @@ class AuthController extends HttpController {
     setRoutes() {
         this.httpPost("auth/signin", async (req, res, next) => {
             return await this.userService.signIn({
-                email: req.body["email"],
+                username: req.body["username"],
                 password: req.body["password"],
             });
         });
@@ -32,10 +32,10 @@ class AuthController extends HttpController {
             authentication(), 
             async (req, res, next) => {
             return await this.userService.signOut({
-                    userId: req.user["id"],
-                    token: req.headers["token"],
-                });
-            }); 
+                userId: req.user["id"],
+                token: req.headers["token"],
+            });
+        }); 
     }
 }
 

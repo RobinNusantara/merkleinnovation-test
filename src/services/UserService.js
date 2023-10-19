@@ -7,6 +7,7 @@ const { Op } = require("sequelize");
 const { Injectable } = require("../common/utils/AppDependency");
 const { UserRepository } = require("../repositories/UserRepository");
 const { UserTokenRepository } = require("../repositories/UserTokenRepository");
+const { Database } = require("../infrastructure/mysql/Database");
 
 class UserService {
     /**
@@ -33,9 +34,26 @@ class UserService {
      * @param {import("../dtos/Admin/InsertAdminUserDto").InsertAdminUserDto} body
      */
     async insertUser(body) {
-        const isUserExists = await this.getUserByEmail(body.email);
+        const [isEmailTaken, isUsernameTaken] = await Promise.all([
+            this.userRepository.findOne({
+                where: {
+                    email: {
+                        [Op.eq]: body.email,
+                    },
+                },
+            }),
+            this.userRepository.findOne({
+                where: {
+                    username: {
+                        [Op.eq]: body.username,
+                    },
+                },
+            }),
+        ]);
 
-        if (isUserExists) throw Conflict("User already exists!");
+        if (isEmailTaken) throw new Conflict("Email already taken!");
+
+        if (isUsernameTaken) throw new Conflict("Username already taken!");
 
         const salt = await bcrypt.genSalt(10);
         const password = await bcrypt.hash(body.password, salt);
@@ -51,16 +69,58 @@ class UserService {
     }
 
     /**
+     * @param {import("../dtos/Admin/RemoveAdminUserDto").RemoveAdminUserDto} body
+     */
+    async removeUser(body) {
+        const isUserExists = await this.userRepository.findOne({
+            where: {
+                id: {
+                    [Op.eq]: body.userId,
+                },
+            },
+        });
+
+        if (!isUserExists) throw new NotFound("User not found!");
+
+        return await Database.transaction(async (transaction) => {
+            await this.userTokenRepository.delete({
+                where: {
+                    userId: {
+                        [Op.eq]: body.userId,
+                    }
+                },
+                transaction,
+            });
+
+            return await this.userRepository.delete({
+                where: {
+                    id: {
+                        [Op.eq]: body.userId,
+                    },
+                },
+                transaction,
+            });
+
+        });
+    }
+
+    /**
      * @param {import("../dtos/SignIn/SignInDto").SignInDto} body
      */
     async signIn(body) {
-        const user = await this.getUserByEmail(body.email);
+        const user = await this.userRepository.findOne({
+            where: {
+                username: {
+                    [Op.eq]: body.username,
+                },
+            },
+        });
 
-        if (!user) throw new NotFound("No user found with that email!");
+        if (!user) throw new NotFound("Wrong Username!");
 
-        const isPasswordValid = await bcrypt.compare(body.password, user.password);
+        const password = await bcrypt.compare(body.password, user.password);
 
-        if (!isPasswordValid) throw new Unauthorized("Wrong password!");
+        if (!password) throw new Unauthorized("Wrong password!");
         
         const payload = this.mapUser(user);
         const token = sign(payload, process.env.SERVER_TOKEN);
@@ -109,21 +169,6 @@ class UserService {
             count: data?.count || 0,
             rows: !data?.rows ? [] : data.rows.map((user) => this.mapUser(user)),
         };
-    }
-
-
-    /**
-     * @private
-     * @param {string} email
-     */
-    async getUserByEmail(email) {
-        return await this.userRepository.findOne({
-            where: {
-                email: {
-                    [Op.eq]: email,
-                },
-            }, 
-        });
     }
 
     /**
