@@ -1,28 +1,28 @@
 const { HttpController } = require("../common/http/HttpController");
 const { Controller } = require("../common/utils/AppDependency");
-const { GuestFormService } = require("../services/GuestFormService");
+const { UserService } = require("../services/UserService");
 
-class NoteGalleryController extends HttpController {
+class AdminController extends HttpController {
     /**
      * @private
-     * @type {GuestFormService}
+     * @param {UserService}
      */
-    guestFormService;
-
+    userService;
+    
     /**
      * @param {import("express").Application} express
-     * @param {GuestFormService}              guestFormService 
+     * @param {UserService}                   userService 
      */
-    constructor(express, guestFormService) {
-        super(express)
-        this.guestFormService = guestFormService;
+    constructor(express, userService) {
+        super(express);
+        this.userService = userService;
     }
 
     setRoutes() {
-        this.httpGet("note-galleries", async (req, res, next) => {
+        this.httpGet("admin/users", async (req, res, next) => {
             const { page, limit, offset } = this.pagination(req.query.page, req.query.limit);
 
-            const data = await this.guestFormService.getGuestFormsAndCount({
+            const data = await this.userService.getUsersAndCount({
                 limit,
                 offset,
             });
@@ -38,6 +38,6 @@ class NoteGalleryController extends HttpController {
     }
 }
 
-Controller(NoteGalleryController)([GuestFormService]);
+Controller(AdminController)([UserService])
 
-module.exports = { NoteGalleryController };
+module.exports = { AdminController };

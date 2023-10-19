@@ -32,7 +32,7 @@ class GuestFormService {
      * @public
      * @param {import("../dtos/GuestForm/QueryGetGuestFormsDto").QueryGetGuestFormDto} query
      */
-    async getGuestForms(query) {
+    async getGuestFormsAndCount(query) {
         return await this.guestFormRepository.findAndCountAll({
             limit: query.limit,
             offset: query.offset,

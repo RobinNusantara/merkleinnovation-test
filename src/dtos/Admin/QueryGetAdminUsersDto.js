@@ -1,8 +1,8 @@
-class QueryGetGuestFormDto {
+class QueryGetAdminUsersDto {
     /** @type {number} */
     limit;
     /** @type {number} */
     offset;
 }
 
-module.exports = { QueryGetGuestFormDto };
+module.exports = { QueryGetAdminUsersDto };
