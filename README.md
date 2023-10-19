@@ -91,4 +91,8 @@ API ini akan digunakan untuk melakukan logout dari dashboard, saat berhasil mela
 
 <img width="1232" alt="Screenshot 2023-10-20 at 00 44 26" src="https://github.com/RobinNusantara/merkleinnovation-test/assets/34237504/3cadf679-93a6-4a50-88c7-af78d94047bc">
 
+**Admin**
 
+API ini digunakan oleh admin page agar dapat mengelola semua data yang
+tersimpan di database. Tidak ada data yang dihilangkan pada response API
+ini.
